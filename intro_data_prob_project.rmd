@@ -18,20 +18,25 @@ library(ggplot2)
 
 ### Load data
 
-Make sure your data and R Markdown files are in the same directory. When loaded
-your data file will be called `brfss2013`. Delete this note when before you submit 
-your work. 
-
 ```{r load-data}
 load("brfss2013.RData")
 ```
-
-
 
 * * *
 
 ## Part 1: Data
 
+
+# HOW ARE THE OBSERVATIONS IN THE SAMPLE COLLECTED, AND THE IMPLICATIONS OF THIS DATA COLLECTION METHOD ON THE SCOPE OF INFERENCE (GENERALIZABILITY/CAUSALITY). 
+
+The Behavioral Risk Factor Surveillance System (BRFSS) - 2013 is a system run by the Centers for DIsease Control and Prevention that collects data from all US states and territoies by way of telephone surveys. These surveys are run continuously through the year by contracted call centres, universities and in-house interviewers to provide detailed information regarding risk-behaviours, chronic health conditions and the use of preventive services.
+
+The dataset is drawn from over 400,000 adult interviews each year and is the largest continuously conducted health survey in the world.
+
+States use a standardised core questionarre that they can then add optional modules and state specific questions to. The survey is conducted via Random Digit Dialing to both landlines and cell phones.
+
+CDC uses a post stratification method to weigh tge BRFSS survey data to known proportions of age, race and ethnicity, sex, geographi region within a population. 
+15 https://www.cdc.gov/brfss/about/brfss_faq.htm
 
 # Measures of spread - variance, standard deviation and inter quartile range
 
@@ -50,6 +55,8 @@ Goals of transformation - to see the data structure differently. Reduce skew to 
 
 ## Part 2: Research questions
 
+# Come up with at least three research questions that you want to answer using these data. You should phrase your research questions in a way that matches up with the scope of inference your dataset allows for. Make sure that at least two of these questions involve at least three variables. You are welcomed to create new variables based on existing ones. With each question include a brief discussion (1-2 sentences) as to why this question is of interest to you and/or your audience.
+
 **Research quesion 1:**
 
 **Research quesion 2:**
@@ -60,6 +67,8 @@ Goals of transformation - to see the data structure differently. Reduce skew to 
 * * *
 
 ## Part 3: Exploratory data analysis
+
+# Perform exploratory data analysis (EDA) that addresses each of the three research questions you outlined above. Your EDA should contain numerical summaries and visualizations. Each R output and plot should be accompanied by a brief interpretation. In addition to these parts, there are also 6 points allocated to format, overall organization, and readability of your project. Total points add up to 50 points. See the assessment rubric (provided above) for more details on how your peers will evaluate your work.
 
 NOTE: Insert code chunks as needed by clicking on the "Insert a new code chunk" 
 button (green button with orange arrow) above. Make sure that your code is visible
