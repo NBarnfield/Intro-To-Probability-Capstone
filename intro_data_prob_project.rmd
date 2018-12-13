@@ -29,13 +29,13 @@ load("brfss2013.RData")
 
 # HOW ARE THE OBSERVATIONS IN THE SAMPLE COLLECTED, AND THE IMPLICATIONS OF THIS DATA COLLECTION METHOD ON THE SCOPE OF INFERENCE (GENERALIZABILITY/CAUSALITY). 
 
-The Behavioral Risk Factor Surveillance System (BRFSS) - 2013 is a system run by the Centers for DIsease Control and Prevention that collects data from all US states and territoies by way of telephone surveys. These surveys are run continuously through the year by contracted call centres, universities and in-house interviewers to provide detailed information regarding risk-behaviours, chronic health conditions and the use of preventive services.
+The Behavioral Risk Factor Surveillance System (BRFSS) - 2013 is a system run by the Centers for Disease Control and Prevention that collects data from all US states and territoies by way of telephone surveys. These surveys are run continuously through the year by contracted call centres, universities and in-house interviewers to provide detailed information regarding risk-behaviours, chronic health conditions and the use of preventive services.
 
-The dataset is drawn from over 400,000 adult interviews each year and is the largest continuously conducted health survey in the world.
+The dataset is drawn from over 400,000 adult interviews each year and is the largest continuously conducted health survey in the world. States use a standardised core questionarre that they can then add optional modules and state specific questions to. The survey is conducted via Random Digit Dialing to both landlines and cell phones.
 
-States use a standardised core questionarre that they can then add optional modules and state specific questions to. The survey is conducted via Random Digit Dialing to both landlines and cell phones.
+As an observational study with a randomised population the results are generalisable and corellation can be discussed, however as the subjects are not randomly assigened as in an experiment we cannot prove causality.
 
-CDC uses a post stratification method to weigh tge BRFSS survey data to known proportions of age, race and ethnicity, sex, geographi region within a population. 
+CDC uses a post stratification method to weigh tge BRFSS survey data to known proportions of age, race and ethnicity, sex, geographic region within a population. 
 15 https://www.cdc.gov/brfss/about/brfss_faq.htm
 
 # Measures of spread - variance, standard deviation and inter quartile range
@@ -58,11 +58,22 @@ Goals of transformation - to see the data structure differently. Reduce skew to 
 # Come up with at least three research questions that you want to answer using these data. You should phrase your research questions in a way that matches up with the scope of inference your dataset allows for. Make sure that at least two of these questions involve at least three variables. You are welcomed to create new variables based on existing ones. With each question include a brief discussion (1-2 sentences) as to why this question is of interest to you and/or your audience.
 
 **Research quesion 1:**
+Is income level tied to mental health? 
+Variable 1:income2 - categorical
+Variable 2: menthlth - Finite Numerical 1-30 
+Variable 3: ratesmenthealth - create new variable - menthlth <10 few, >=11 <=20 many, >=21 <=30 most 
 
 **Research quesion 2:**
+Do binge drinkers vote more frequently than people that drank 100 Percent fruit juices? Representing two opposite ends of the health spectrum do these people.
+Variable 1: scntvot1 - voting
+Variable 2: drnk3ge5 - binge drinking
+Variable 3: fruitju1 - time drank fruit juice
 
 **Research quesion 3:**
-
+Internet use by age and their general health
+Variable 1: internet (Use in the past 30 days) - Boolean
+Variable 2: genhlth
+Variable 3:
 
 * * *
 
