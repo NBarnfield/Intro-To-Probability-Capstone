@@ -23,34 +23,14 @@ load("brfss2013.RData")
 ```
 
 * * *
+## Part 1: Data - Method, Bias, Scope
 
-## Part 1: Data
+The Behavioral Risk Factor Surveillance System (BRFSS) - 2013 is a surveillance system run by the Centers for Disease Control and Prevention that collects data from all US states and territoies by way of surveys. These surveys are run continuously through the year by contracted call centres, universities and in-house interviewers to provide detailed information regarding risk-behaviours, chronic health conditions and the use of preventive services. The dataset is drawn from over 400,000 adult interviews each year and is conducted via Random Digit Dialing to both landlines and cell phones.
 
-
-# HOW ARE THE OBSERVATIONS IN THE SAMPLE COLLECTED, AND THE IMPLICATIONS OF THIS DATA COLLECTION METHOD ON THE SCOPE OF INFERENCE (GENERALIZABILITY/CAUSALITY). 
-
-The Behavioral Risk Factor Surveillance System (BRFSS) - 2013 is a system run by the Centers for Disease Control and Prevention that collects data from all US states and territoies by way of telephone surveys. These surveys are run continuously through the year by contracted call centres, universities and in-house interviewers to provide detailed information regarding risk-behaviours, chronic health conditions and the use of preventive services.
-
-The dataset is drawn from over 400,000 adult interviews each year and is the largest continuously conducted health survey in the world. States use a standardised core questionarre that they can then add optional modules and state specific questions to. The survey is conducted via Random Digit Dialing to both landlines and cell phones.
+Though the survey is adminstered throughout the year and at different times in the day there is inherent bias involved in collecting data via a phone sample. People that do not have a mobile or phone line, and people who don't pick up the phone are examples of people missed by the survey. Furthermore, the misremembering of activites, and the over or under exaggeration of particular traights may produce skewed results.
 
 As an observational study with a randomised population the results are generalisable and corellation can be discussed, however as the subjects are not randomly assigened as in an experiment we cannot prove causality.
 
-CDC uses a post stratification method to weigh tge BRFSS survey data to known proportions of age, race and ethnicity, sex, geographic region within a population. 
-15 https://www.cdc.gov/brfss/about/brfss_faq.htm
-
-# Measures of spread - variance, standard deviation and inter quartile range
-
-Robust stastics - is the meadian or the mean a more robust statis
-
-Median (Center) and IQR (Spread) are considered more robust than Mean and Standard Deviation because they are less seceptible to skew by extreme observations. Mean and SD are non-robust and are better suited to symetric distributions.
-
-# Transformation of data
-
-A transformation is a rescaling of data using a function. when data is strongly skewed it is sometimes better to transorm them so they are easier to model.
-
-Common transformation - natural log. Opten applied when musch of the data cluster near zero relative to the larger values in the data.sqrt transformation to make results more linear.
-
-Goals of transformation - to see the data structure differently. Reduce skew to assist in modeling. To straighten a nonlinear relationship in a scatterplot.
 * * *
 
 ## Part 2: Research questions
@@ -59,18 +39,19 @@ Goals of transformation - to see the data structure differently. Reduce skew to 
 
 **Research quesion 1:**
 Is income level tied to mental health? 
+
 Variable 1:income2 - categorical
 Variable 2: menthlth - Finite Numerical 1-30 
 Variable 3: ratesmenthealth - create new variable - menthlth <10 few, >=11 <=20 many, >=21 <=30 most 
 
 **Research quesion 2:**
-Do binge drinkers vote more frequently than people that drank 100 Percent fruit juices? Representing two opposite ends of the health spectrum do these people.
-Variable 1: scntvot1 - voting
-Variable 2: drnk3ge5 - binge drinking
-Variable 3: fruitju1 - time drank fruit juice
+Do home owners vote more frequently than renters? Does gender change this?
+Variable 1: scntvot1 - voting boolean
+Variable 2: renthom1 - living arrangements catagorical
+Variable 3: sex - categorical 
 
 **Research quesion 3:**
-Internet use by age and their general health
+Does a person's internet use correlate with a person's general health? Is there a difference in genders
 Variable 1: internet (Use in the past 30 days) - Boolean
 Variable 2: genhlth
 Variable 3:
@@ -79,33 +60,22 @@ Variable 3:
 
 ## Part 3: Exploratory data analysis
 
-# Perform exploratory data analysis (EDA) that addresses each of the three research questions you outlined above. Your EDA should contain numerical summaries and visualizations. Each R output and plot should be accompanied by a brief interpretation. In addition to these parts, there are also 6 points allocated to format, overall organization, and readability of your project. Total points add up to 50 points. See the assessment rubric (provided above) for more details on how your peers will evaluate your work.
-
-NOTE: Insert code chunks as needed by clicking on the "Insert a new code chunk" 
-button (green button with orange arrow) above. Make sure that your code is visible
-in the project you submit. Delete this note when before you submit your work.
-
+# Perform exploratory data analysis (EDA) that addresses each of the three research questions you outlined above. Your EDA should contain numerical summaries and visualizations. Each R output and plot should be accompanied by a brief interpretation. 
 
 Create contingency tables!!
 Relative frequencites - test categorical variables amongst stratafied groups (i.e. Income vs Difficulty saving) and determine if they are associated (dependent)
-
-
 
 Categorical Variable:
 Generate a mosaic plot and contingency table
 Segmented bar plot to visualise relative frequenxies
 
 
-
-Nul Hypotheses - nothing is going on (the status quo). Alternative hypothesis - there is something going on.
-H0 - Defendant is innocent - HA Defendant is guilty.
-
-Present the evidence, judge the evidence and either accept or reject the hypothesis.
-
 **Research quesion 1:**
 
 ```{r}
-
+q1 <- select(brfss2013, income2, menthlth) %>%
+  filter(!is.na(income2), !is.na(menthlth))
+q1 %>% group_by(income2) %>% summarise(count=n())
 ```
 
 

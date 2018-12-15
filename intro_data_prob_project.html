@@ -164,48 +164,46 @@ $(document).ready(function () {
 <hr />
 </div>
 </div>
-<div id="part-1-data" class="section level2">
-<h2>Part 1: Data</h2>
-</div>
-<div id="how-are-the-observations-in-the-sample-collected-and-the-implications-of-this-data-collection-method-on-the-scope-of-inference-generalizabilitycausality." class="section level1">
-<h1>HOW ARE THE OBSERVATIONS IN THE SAMPLE COLLECTED, AND THE IMPLICATIONS OF THIS DATA COLLECTION METHOD ON THE SCOPE OF INFERENCE (GENERALIZABILITY/CAUSALITY).</h1>
-<p>The Behavioral Risk Factor Surveillance System (BRFSS) - 2013 is a system run by the Centers for Disease Control and Prevention that collects data from all US states and territoies by way of telephone surveys. These surveys are run continuously through the year by contracted call centres, universities and in-house interviewers to provide detailed information regarding risk-behaviours, chronic health conditions and the use of preventive services.</p>
-<p>The dataset is drawn from over 400,000 adult interviews each year and is the largest continuously conducted health survey in the world. States use a standardised core questionarre that they can then add optional modules and state specific questions to. The survey is conducted via Random Digit Dialing to both landlines and cell phones.</p>
+<div id="part-1-data---method-bias-scope" class="section level2">
+<h2>Part 1: Data - Method, Bias, Scope</h2>
+<p>The Behavioral Risk Factor Surveillance System (BRFSS) - 2013 is a surveillance system run by the Centers for Disease Control and Prevention that collects data from all US states and territoies by way of surveys. These surveys are run continuously through the year by contracted call centres, universities and in-house interviewers to provide detailed information regarding risk-behaviours, chronic health conditions and the use of preventive services. The dataset is drawn from over 400,000 adult interviews each year and is conducted via Random Digit Dialing to both landlines and cell phones.</p>
+<p>Though the survey is adminstered throughout the year and at different times in the day there is inherent bias involved in collecting data via a phone sample. People that do not have a mobile or phone line, and people who don’t pick up the phone are examples of people missed by the survey. Furthermore, the misremembering of activites, and the over or under exaggeration of particular traights may produce skewed results.</p>
 <p>As an observational study with a randomised population the results are generalisable and corellation can be discussed, however as the subjects are not randomly assigened as in an experiment we cannot prove causality.</p>
-<p>CDC uses a post stratification method to weigh tge BRFSS survey data to known proportions of age, race and ethnicity, sex, geographic region within a population. 15 <a href="https://www.cdc.gov/brfss/about/brfss_faq.htm" class="uri">https://www.cdc.gov/brfss/about/brfss_faq.htm</a></p>
+<hr />
 </div>
-<div id="measures-of-spread---variance-standard-deviation-and-inter-quartile-range" class="section level1">
-<h1>Measures of spread - variance, standard deviation and inter quartile range</h1>
-<p>Robust stastics - is the meadian or the mean a more robust statis</p>
-<p>Median (Center) and IQR (Spread) are considered more robust than Mean and Standard Deviation because they are less seceptible to skew by extreme observations. Mean and SD are non-robust and are better suited to symetric distributions.</p>
-</div>
-<div id="transformation-of-data" class="section level1">
-<h1>Transformation of data</h1>
-<p>A transformation is a rescaling of data using a function. when data is strongly skewed it is sometimes better to transorm them so they are easier to model.</p>
-<p>Common transformation - natural log. Opten applied when musch of the data cluster near zero relative to the larger values in the data.sqrt transformation to make results more linear.</p>
-<p>Goals of transformation - to see the data structure differently. Reduce skew to assist in modeling. To straighten a nonlinear relationship in a scatterplot. * * *</p>
 <div id="part-2-research-questions" class="section level2">
 <h2>Part 2: Research questions</h2>
 </div>
-</div>
 <div id="come-up-with-at-least-three-research-questions-that-you-want-to-answer-using-these-data.-you-should-phrase-your-research-questions-in-a-way-that-matches-up-with-the-scope-of-inference-your-dataset-allows-for.-make-sure-that-at-least-two-of-these-questions-involve-at-least-three-variables.-you-are-welcomed-to-create-new-variables-based-on-existing-ones.-with-each-question-include-a-brief-discussion-1-2-sentences-as-to-why-this-question-is-of-interest-to-you-andor-your-audience." class="section level1">
 <h1>Come up with at least three research questions that you want to answer using these data. You should phrase your research questions in a way that matches up with the scope of inference your dataset allows for. Make sure that at least two of these questions involve at least three variables. You are welcomed to create new variables based on existing ones. With each question include a brief discussion (1-2 sentences) as to why this question is of interest to you and/or your audience.</h1>
-<p><strong>Research quesion 1:</strong></p>
-<p><strong>Research quesion 2:</strong></p>
-<p><strong>Research quesion 3:</strong></p>
+<p><strong>Research quesion 1:</strong> Is income level tied to mental health?</p>
+<p>Variable 1:income2 - categorical Variable 2: menthlth - Finite Numerical 1-30 Variable 3: ratesmenthealth - create new variable - menthlth &lt;10 few, &gt;=11 &lt;=20 many, &gt;=21 &lt;=30 most</p>
+<p><strong>Research quesion 2:</strong> Do home owners vote more frequently than renters? Does gender change this? Variable 1: scntvot1 - voting boolean Variable 2: renthom1 - living arrangements catagorical Variable 3: sex - categorical</p>
+<p><strong>Research quesion 3:</strong> Does a person’s internet use correlate with a person’s general health? Is there a difference in genders Variable 1: internet (Use in the past 30 days) - Boolean Variable 2: genhlth Variable 3:</p>
 <hr />
 <div id="part-3-exploratory-data-analysis" class="section level2">
 <h2>Part 3: Exploratory data analysis</h2>
 </div>
 </div>
-<div id="perform-exploratory-data-analysis-eda-that-addresses-each-of-the-three-research-questions-you-outlined-above.-your-eda-should-contain-numerical-summaries-and-visualizations.-each-r-output-and-plot-should-be-accompanied-by-a-brief-interpretation.-in-addition-to-these-parts-there-are-also-6-points-allocated-to-format-overall-organization-and-readability-of-your-project.-total-points-add-up-to-50-points.-see-the-assessment-rubric-provided-above-for-more-details-on-how-your-peers-will-evaluate-your-work." class="section level1">
-<h1>Perform exploratory data analysis (EDA) that addresses each of the three research questions you outlined above. Your EDA should contain numerical summaries and visualizations. Each R output and plot should be accompanied by a brief interpretation. In addition to these parts, there are also 6 points allocated to format, overall organization, and readability of your project. Total points add up to 50 points. See the assessment rubric (provided above) for more details on how your peers will evaluate your work.</h1>
-<p>NOTE: Insert code chunks as needed by clicking on the “Insert a new code chunk” button (green button with orange arrow) above. Make sure that your code is visible in the project you submit. Delete this note when before you submit your work.</p>
+<div id="perform-exploratory-data-analysis-eda-that-addresses-each-of-the-three-research-questions-you-outlined-above.-your-eda-should-contain-numerical-summaries-and-visualizations.-each-r-output-and-plot-should-be-accompanied-by-a-brief-interpretation." class="section level1">
+<h1>Perform exploratory data analysis (EDA) that addresses each of the three research questions you outlined above. Your EDA should contain numerical summaries and visualizations. Each R output and plot should be accompanied by a brief interpretation.</h1>
 <p>Create contingency tables!! Relative frequencites - test categorical variables amongst stratafied groups (i.e. Income vs Difficulty saving) and determine if they are associated (dependent)</p>
 <p>Categorical Variable: Generate a mosaic plot and contingency table Segmented bar plot to visualise relative frequenxies</p>
-<p>Nul Hypotheses - nothing is going on (the status quo). Alternative hypothesis - there is something going on. H0 - Defendant is innocent - HA Defendant is guilty.</p>
-<p>Present the evidence, judge the evidence and either accept or reject the hypothesis.</p>
 <p><strong>Research quesion 1:</strong></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">q1 &lt;-<span class="st"> </span><span class="kw">select</span>(brfss2013, income2, menthlth) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(income2), <span class="op">!</span><span class="kw">is.na</span>(menthlth))
+q1 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(income2) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarise</span>(<span class="dt">count=</span><span class="kw">n</span>())</code></pre></div>
+<pre><code>## # A tibble: 8 x 2
+##   income2            count
+##   &lt;fct&gt;              &lt;int&gt;
+## 1 Less than $10,000  24608
+## 2 Less than $15,000  26065
+## 3 Less than $20,000  34119
+## 4 Less than $25,000  40945
+## 5 Less than $35,000  48116
+## 6 Less than $50,000  60812
+## 7 Less than $75,000  64701
+## 8 $75,000 or more   115097</code></pre>
 <p><strong>Research quesion 2:</strong></p>
 <p><strong>Research quesion 3:</strong></p>
 </div>
