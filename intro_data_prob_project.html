@@ -173,25 +173,51 @@ $(document).ready(function () {
 </div>
 <div id="part-2-research-questions" class="section level2">
 <h2>Part 2: Research questions</h2>
-</div>
-<div id="come-up-with-at-least-three-research-questions-that-you-want-to-answer-using-these-data.-you-should-phrase-your-research-questions-in-a-way-that-matches-up-with-the-scope-of-inference-your-dataset-allows-for.-make-sure-that-at-least-two-of-these-questions-involve-at-least-three-variables.-you-are-welcomed-to-create-new-variables-based-on-existing-ones.-with-each-question-include-a-brief-discussion-1-2-sentences-as-to-why-this-question-is-of-interest-to-you-andor-your-audience." class="section level1">
-<h1>Come up with at least three research questions that you want to answer using these data. You should phrase your research questions in a way that matches up with the scope of inference your dataset allows for. Make sure that at least two of these questions involve at least three variables. You are welcomed to create new variables based on existing ones. With each question include a brief discussion (1-2 sentences) as to why this question is of interest to you and/or your audience.</h1>
-<p><strong>Research quesion 1:</strong> Is income level tied to mental health?</p>
-<p>Variable 1:income2 - categorical Variable 2: menthlth - Finite Numerical 1-30 Variable 3: ratesmenthealth - create new variable - menthlth &lt;10 few, &gt;=11 &lt;=20 many, &gt;=21 &lt;=30 most</p>
-<p><strong>Research quesion 2:</strong> Do home owners vote more frequently than renters? Does gender change this? Variable 1: scntvot1 - voting boolean Variable 2: renthom1 - living arrangements catagorical Variable 3: sex - categorical</p>
-<p><strong>Research quesion 3:</strong> Does a person’s internet use correlate with a person’s general health? Is there a difference in genders Variable 1: internet (Use in the past 30 days) - Boolean Variable 2: genhlth Variable 3:</p>
+<strong>Research quesion 1:</strong> Is income level tied to mental health? It would be interesting to see if there is an association present between mental health and income. Can money buy happiness?
+<ul>
+<li>
+Variable 1:income2 - categorical
+</li>
+<li>
+Variable 2: menthlth - Finite Numerical 1-30
+</li>
+<li>
+Variable 3: ratesmenthealth - create new variable - menthlth &lt;10 few, &gt;=11 &lt;=20 many, &gt;=21 &lt;=30 most
+</li>
+</ul>
+<strong>Research quesion 2:</strong> Do home owners vote more frequently than renters? Does gender change this? Home ownership typically resides with older people and is a proxy for young vs old.
+<ul>
+<li>
+Variable 1: scntvot1 - voting boolean
+</li>
+<li>
+Variable 2: renthom1 - living arrangements catagorical
+</li>
+<li>
+Variable 3: sex - categorical
+</li>
+</ul>
+<strong>Research quesion 3:</strong> Does a person’s internet use correlate with a person’s general health? Is there a difference in genders? I would believe that the more time someone spends on the internet precludes them from living an active lifestyle which would indicate lower healthy outcomes.
+<ul>
+<li>
+Variable 1: internet (Use in the past 30 days) - Boolean
+</li>
+<li>
+Variable 2: genhlth
+</li>
+<li>
+Variable 3:
+</li>
+</ul>
 <hr />
+</div>
 <div id="part-3-exploratory-data-analysis" class="section level2">
 <h2>Part 3: Exploratory data analysis</h2>
-</div>
-</div>
-<div id="perform-exploratory-data-analysis-eda-that-addresses-each-of-the-three-research-questions-you-outlined-above.-your-eda-should-contain-numerical-summaries-and-visualizations.-each-r-output-and-plot-should-be-accompanied-by-a-brief-interpretation." class="section level1">
-<h1>Perform exploratory data analysis (EDA) that addresses each of the three research questions you outlined above. Your EDA should contain numerical summaries and visualizations. Each R output and plot should be accompanied by a brief interpretation.</h1>
-<p>Create contingency tables!! Relative frequencites - test categorical variables amongst stratafied groups (i.e. Income vs Difficulty saving) and determine if they are associated (dependent)</p>
-<p>Categorical Variable: Generate a mosaic plot and contingency table Segmented bar plot to visualise relative frequenxies</p>
+<p>Perform exploratory data analysis (EDA) that addresses each of the three research questions you outlined above. Your EDA should contain numerical summaries and visualizations. Each R output and plot should be accompanied by a brief interpretation.</p>
 <p><strong>Research quesion 1:</strong></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">q1 &lt;-<span class="st"> </span><span class="kw">select</span>(brfss2013, income2, menthlth) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">filter</span>(<span class="op">!</span><span class="kw">is.na</span>(income2), <span class="op">!</span><span class="kw">is.na</span>(menthlth))
+q1<span class="op">$</span>menthlthcat &lt;-<span class="kw">ifelse</span>(q1<span class="op">$</span>menthlth <span class="op">&gt;</span><span class="st"> </span><span class="dv">15</span>, <span class="kw">c</span>(<span class="st">&quot;High&quot;</span>), <span class="kw">c</span>(<span class="st">&quot;Low&quot;</span>))
 q1 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(income2) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarise</span>(<span class="dt">count=</span><span class="kw">n</span>())</code></pre></div>
 <pre><code>## # A tibble: 8 x 2
 ##   income2            count

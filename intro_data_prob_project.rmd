@@ -35,49 +35,46 @@ As an observational study with a randomised population the results are generalis
 
 ## Part 2: Research questions
 
-# Come up with at least three research questions that you want to answer using these data. You should phrase your research questions in a way that matches up with the scope of inference your dataset allows for. Make sure that at least two of these questions involve at least three variables. You are welcomed to create new variables based on existing ones. With each question include a brief discussion (1-2 sentences) as to why this question is of interest to you and/or your audience.
-
 **Research quesion 1:**
-Is income level tied to mental health? 
-
-Variable 1:income2 - categorical
-Variable 2: menthlth - Finite Numerical 1-30 
-Variable 3: ratesmenthealth - create new variable - menthlth <10 few, >=11 <=20 many, >=21 <=30 most 
-
+Is income level tied to mental health? It would be interesting to see if there is an association present between mental health and income. Can money buy happiness?
+<ul>
+<li>Variable 1:income2 - categorical</li>
+<li>Variable 2: menthlth - Finite Numerical 1-30</li> 
+<li>Variable 3: ratesmenthealth - create new variable - menthlth <10 few, >=11 <=20 many, >=21 <=30 most</li> 
+</ul>
 **Research quesion 2:**
-Do home owners vote more frequently than renters? Does gender change this?
-Variable 1: scntvot1 - voting boolean
-Variable 2: renthom1 - living arrangements catagorical
-Variable 3: sex - categorical 
-
+Do home owners vote more frequently than renters? Does gender change this? Home ownership typically resides with older people and is a proxy for young vs old.
+<ul>
+<li>Variable 1: scntvot1 - voting boolean</li>
+<li>Variable 2: renthom1 - living arrangements catagorical</li>
+<li>Variable 3: sex - categorical </li>
+</ul>
 **Research quesion 3:**
-Does a person's internet use correlate with a person's general health? Is there a difference in genders
-Variable 1: internet (Use in the past 30 days) - Boolean
-Variable 2: genhlth
-Variable 3:
-
+Does a person's internet use correlate with a person's general health? Is there a difference in genders? I would believe that the more time someone spends on the internet precludes them from living an active lifestyle which would indicate lower healthy outcomes.
+<ul>
+<li>Variable 1: internet (Use in the past 30 days) - Boolean</li>
+<li>Variable 2: genhlth</li>
+<li>Variable 3:</li>
+</ul>
 * * *
 
 ## Part 3: Exploratory data analysis
 
-# Perform exploratory data analysis (EDA) that addresses each of the three research questions you outlined above. Your EDA should contain numerical summaries and visualizations. Each R output and plot should be accompanied by a brief interpretation. 
-
-Create contingency tables!!
-Relative frequencites - test categorical variables amongst stratafied groups (i.e. Income vs Difficulty saving) and determine if they are associated (dependent)
-
-Categorical Variable:
-Generate a mosaic plot and contingency table
-Segmented bar plot to visualise relative frequenxies
-
+Perform exploratory data analysis (EDA) that addresses each of the three research questions you outlined above. Your EDA should contain numerical summaries and visualizations. Each R output and plot should be accompanied by a brief interpretation. 
 
 **Research quesion 1:**
 
 ```{r}
 q1 <- select(brfss2013, income2, menthlth) %>%
   filter(!is.na(income2), !is.na(menthlth))
-q1 %>% group_by(income2) %>% summarise(count=n())
+q1$menthlthcat <-ifelse(q1$menthlth > 15, c("High"), c("Low"))
+ggplot(data = q1, aes(x = menthlthcat) +
+  geom_histogram())
+
 ```
 
+  group_by(income2) %>% 
+  summarise(menthlthcat)
 
 
 **Research quesion 2:**
