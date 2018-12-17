@@ -65,16 +65,23 @@ Perform exploratory data analysis (EDA) that addresses each of the three researc
 **Research quesion 1:**
 
 ```{r}
-q1 <- select(brfss2013, income2, menthlth) %>%
-  filter(!is.na(income2), !is.na(menthlth))
-q1$menthlthcat <-ifelse(q1$menthlth > 15, c("High"), c("Low"))
-ggplot(data = q1, aes(x = menthlthcat) +
-  geom_histogram())
+# Select relevant variables, filter NAs, create a new categorical variable and summarise. 
+q1 <- select(brfss2013, income2, menthlth) %>% 
+  filter(!is.na(income2), !is.na(menthlth)) %>%
+  mutate(menthlthcat = ifelse(menthlth > 15, c("High"), c("Low")))
+
+str(q1)
+
+q1 %>%
+  group_by(menthlthcat) %>% 
+  summarise(count=n())
 
 ```
 
-  group_by(income2) %>% 
-  summarise(menthlthcat)
+
+ggplot(data = q1, aes(x = menthlthcat) +
+  geom_histogram())
+  
 
 
 **Research quesion 2:**
