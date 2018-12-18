@@ -69,19 +69,25 @@ Perform exploratory data analysis (EDA) that addresses each of the three researc
 q1 <- select(brfss2013, income2, menthlth) %>% 
   filter(!is.na(income2), !is.na(menthlth)) %>%
   mutate(menthlthcat = ifelse(menthlth > 15, c("High"), c("Low")))
-
+  
 q1 %>%
-  group_by(income2, menthlthcat) %>% 
-  summarise(count=n())
+  group_by(income2) %>%
+  summarise(mean_days = mean(menthlth), n = n())
 
-ggplot(data = q1, aes(x = menthlthcat, y = income2)) +
-  geom_bar(stat = "count")
 ```
-
+q1 %>%
+  group_by(income2) %>% 
+  summarise(count=n())
 
 ggplot(data = q1, aes(x = menthlthcat) +
   geom_histogram())
   
+  
+# create a box plot to assess the median number of days for each income category 
+
+q1histogram <-ggplot(data = q1, aes(x = menthlth)) +
+  geom_histogram(binwidth = 5) + xlim(0, 30)
+q1histogram
 
 
 **Research quesion 2:**
