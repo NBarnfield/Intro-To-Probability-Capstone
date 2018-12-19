@@ -65,16 +65,35 @@ Perform exploratory data analysis (EDA) that addresses each of the three researc
 **Research quesion 1:**
 
 ```{r}
-# Select relevant variables, filter NAs, create a new categorical variable and summarise. 
-q1 <- select(brfss2013, income2, menthlth) %>% 
-  filter(!is.na(income2), !is.na(menthlth)) %>%
-  mutate(mean_days = mean(menthlth))
-  
-ggplot(data = q1, aes(x = mean_days) +
-  geom_histogram())
+str(q1)
 ```
 
-The average days of poor mentalhealth days decreases as inome level rises. The majority of people have a large income and therefore have fewer poor mental health days than others.
+
+```{r}
+q1 <- select(brfss2013, income2, menthlth) %>% 
+  filter(!is.na(income2), !is.na(menthlth))
+
+ggplot(q1, aes(x = income2)) +
+  geom_bar()
+```
+
+From the graph we can see that the majority of people in the study have an income over $75000.
+
+```{r}
+q1 %>%
+  group_by(income2) %>%
+  summarise(mean_days = mean(menthlth), n = n()) %>%
+  arrange(desc(mean_days))
+```
+
+  
+The summary shows that the average days of poor mentalhealth days decreases as income level rises. The majority of people have a large income and therefore have fewer poor mental health days than others.
+
+```{r}
+ggplot(q1, aes(x = income2, y = factor(mean_days))) +
+  geom_boxplot()
+```
+
 
 q1 %>%
   group_by(income2) %>%
@@ -85,9 +104,6 @@ q1 %>%
   group_by(income2) %>% 
   summarise(count=n())
 
-
-  
-  
 # create a box plot to assess the median number of days for each income category 
 
 q1histogram <-ggplot(data = q1, aes(x = menthlth)) +
