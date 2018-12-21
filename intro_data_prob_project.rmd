@@ -40,7 +40,7 @@ Is income level tied to mental health? It would be interesting to see if there i
 <ul>
 <li>Variable 1:income2 - categorical</li>
 <li>Variable 2: menthlth - Finite Numerical 1-30</li> 
-<li>Variable 3: ratesmenthealth - create new variable - menthlth <10 few, >=11 <=20 many, >=21 <=30 most</li> 
+<li>Variable 3: sex</li>
 </ul>
 **Research quesion 2:**
 Do home owners vote more frequently than renters? Does gender change this? Home ownership typically resides with older people and is a proxy for young vs old.
@@ -68,25 +68,32 @@ Perform exploratory data analysis (EDA) that addresses each of the three researc
 q1 <- select(brfss2013, income2, menthlth, sex) %>% 
   filter(!is.na(income2), !is.na(menthlth), menthlth < 40)
 
-summaryplot <- q1 %>%
+population_summary_plot <- q1 %>%
+  group_by(income2) %>%
+  summarise(mean_days = mean(menthlth), n = n()) %>%
+  arrange(desc(income2))
+
+  
+sex_summaryplot <- q1 %>%
   group_by(income2, sex) %>%
   summarise(mean_days = mean(menthlth), n = n()) %>%
   arrange(desc(income2))
 
-summaryplot
+population_summary_plot
+sex_summaryplot
 ```
 
 
 ```{r}
-ggplot(data = q1, aes(x = income2)) +
-  geom_bar(aes(fill = sex)) + 
+ggplot(data = q1, aes(x = income2, fill = sex)) +
+  geom_bar(position = position_dodge()) + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 The majority of people in the study earned $75,000 or more.
 
 ```{r}
-ggplot(summaryplot, aes(x = income2, y = mean_days)) +
+ggplot(population_summary_plot, aes(x = income2, y = mean_days)) +
   geom_bar(stat = "identity") + 
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
@@ -94,9 +101,11 @@ ggplot(summaryplot, aes(x = income2, y = mean_days)) +
 From the graph we can see that as income increases there is 
 
 ```{r}
-
+ggplot(sex_summaryplot, aes(x = income2, y = mean_days, fill = sex)) +
+  geom_bar(stat = "identity", position = position_dodge()) + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
-
+Women show consistently high mean days of poor mental health at every income level.
   
 The summary shows that the average days of poor mental health days decreases as income level rises. The majority of people have a large income and therefore have fewer poor mental health days than others.
 
@@ -113,7 +122,14 @@ In short, there appears to be an association between income and overall mental h
 **Research quesion 2:**
 
 ```{r}
+q2 <- select(brfss2013, scntvot1, renthom1, sex) %>% 
+  filter(!is.na(scntvot1), !is.na(renthom1))
 
+vote_plot <- q2 %>%
+  group_by(renthom1)
+
+ggplot(data = vote_plot, aes(x = renthom1, fill = sex), xlab = "Housing Arrangements", ylab = "Count of Population") +
+  geom_bar(position = position_dodge())
 ```
 
 
