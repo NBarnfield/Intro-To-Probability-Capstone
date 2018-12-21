@@ -87,7 +87,8 @@ sex_summaryplot
 ```{r}
 ggplot(data = q1, aes(x = income2, fill = sex)) +
   geom_bar(position = position_dodge()) + 
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(x = "Income level", y = "Count")
 ```
 
 The majority of people in the study earned $75,000 or more.
@@ -95,16 +96,22 @@ The majority of people in the study earned $75,000 or more.
 ```{r}
 ggplot(population_summary_plot, aes(x = income2, y = mean_days)) +
   geom_bar(stat = "identity") + 
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(x = "Income level", y = "Mean Days Poor Mnthlth")
 ```
 
+
 From the graph we can see that as income increases there is 
+
 
 ```{r}
 ggplot(sex_summaryplot, aes(x = income2, y = mean_days, fill = sex)) +
   geom_bar(stat = "identity", position = position_dodge()) + 
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(x = "Income level", y = "Mean Days Poor Mnthlth")
 ```
+
+
 Women show consistently high mean days of poor mental health at every income level.
   
 The summary shows that the average days of poor mental health days decreases as income level rises. The majority of people have a large income and therefore have fewer poor mental health days than others.
@@ -112,7 +119,8 @@ The summary shows that the average days of poor mental health days decreases as 
 ```{r}
 ggplot(data = q1, aes(x = income2, y = menthlth)) +
   geom_boxplot()  + 
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(x = "Income level", y = "Mean Days Poor Mnthlth")
 ```
 
 We can also see that the distribution of people and their menthlth is far more concentrated amongst the population as income increases.
@@ -128,9 +136,12 @@ q2 <- select(brfss2013, scntvot1, renthom1, sex) %>%
 vote_plot <- q2 %>%
   group_by(renthom1)
 
-ggplot(data = vote_plot, aes(x = renthom1, fill = sex), xlab = "Housing Arrangements", ylab = "Count of Population") +
-  geom_bar(position = position_dodge())
+ggplot(data = vote_plot, aes(x = renthom1, fill = sex)) +
+  geom_bar(position = position_dodge()) +
+  labs(x = "Housing Arrangements", y = "Count of Population")
 ```
+
+Is there a difference in the voting of home owners and renters? FUrthermore is there are substantial difference between subsets and when gender is considered?
 
 
 
