@@ -54,7 +54,6 @@ Does a person's internet use correlate with a person's general health? Is there 
 <ul>
 <li>Variable 1: internet (Use in the past 30 days) - Boolean</li>
 <li>Variable 2: genhlth</li>
-<li>Variable 3:</li>
 </ul>
 * * *
 
@@ -148,6 +147,17 @@ Is there a difference in the voting of home owners and renters? FUrthermore is t
 **Research quesion 3:**
 
 ```{r}
+# Using the two variables internet and genhlth we can see what the general health habits of people are in association with their internet use.
 
+q3 <- select(brfss2013, genhlth, internet, sex) %>% 
+  filter(!is.na(genhlth), !is.na(internet))
+
+health_plot <- q3 %>%
+  group_by(genhlth)
+
+ggplot(data = health_plot, aes(x = genhlth, fill = internet)) +
+  geom_bar(position = position_dodge()) +
+  labs(x = "Genhlth", y = "Count of Genhlth")
+```
 ```
 
