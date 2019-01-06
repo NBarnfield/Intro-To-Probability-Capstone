@@ -1,6 +1,3 @@
-As an observational study with a randomised population the results are generalisable and corellation can be discussed, however as the subjects are not randomly assigened as in an experiment we cannot prove causality.
-
-
 ---
 title: "Exploring the BRFSS data"
 output:
@@ -130,31 +127,37 @@ q2 <- q2 %>%
                exerany2 == "Yes" & scntvot1 == "No" ~ "Exercised but didn't vote",
                  exerany2 == "No" & scntvot1 == "Yes" ~ "Voted but didn't exercise"))
 
-q2 %>%
-  group_by(status) %>%
+with(q2, table(sex, status))
+ggplot(q2, aes(x = status, fill = sex)) + geom_bar()
+
+```
+
+Fix up summary tab graph to show positions dodge by sex
+```{r}
+summarytab <- q2 %>%
+  group_by(status, sex) %>%
   summarise(count = n()) %>%
   arrange(desc(count))
+
+ggplot(data = summarytab, aes(x = reorder(status, -count), fill = 'sex')) +
+  geom_histogram(stat = 'identity')
+```
+
+
+As proportions of the total population and relative to their statuses:
+
+
+```{r}
+ggplot(data = q2, aes(x = status, fill = sex)) +
+  geom_bar(position = 'fill')
 ```
 
 
 ```{r}
-vote_plot <- q2 %>%
-  group_by(status) %>%
-  summarise(count = n())
-
-ggplot(data = vote_plot, aes(x = status)) +
-  geom_bar()
+tab = with(q2, table(sex, status))
+round(tab/sum(tab), 2)
 ```
 
-
-Is there a difference in the voting of home owners and renters? Furthermore is there are substantial difference between subsets and when gender is considered?
-
-```{r}
-
-ggplot(data = vote_plot, aes(x = scntvot1, fill = exerany2)) +
-  geom_bar(position = "fill") +
-  labs(x = "Voted", y = "Percentage of Respondents")
-```
 
 The graph demonstrates that when considering relative proportions there is only a marginal difference between exercise habits of those that voted versus those that did not.
 
