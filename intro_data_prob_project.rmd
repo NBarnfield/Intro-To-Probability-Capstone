@@ -139,8 +139,7 @@ summarytab <- q2 %>%
   summarise(count = n()) %>%
   arrange(desc(count))
 
-ggplot(data = summarytab, aes(x = reorder(status, -count), fill = 'sex')) +
-  geom_histogram(stat = 'identity')
+summarytab
 ```
 
 
