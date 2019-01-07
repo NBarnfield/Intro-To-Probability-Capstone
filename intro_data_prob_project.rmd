@@ -67,18 +67,11 @@ q1 <- select(brfss2013, income2, menthlth, sex) %>%
   filter(!is.na(income2), !is.na(menthlth), menthlth < 40)
 
 population_summary_plot <- q1 %>%
-  group_by(income2) %>%
-  summarise(mean_days = mean(menthlth), n = n()) %>%
-  arrange(desc(income2))
-
-
-sex_summaryplot <- q1 %>%
   group_by(income2, sex) %>%
-  summarise(mean_days = mean(menthlth), n = n()) %>%
+  summarise(mean_days = mean(menthlth), sd_days = sd(menthlth), n = n()) %>%
   arrange(desc(income2))
 
 population_summary_plot
-sex_summaryplot
 ```
 
 The summary statistics show that the largest cohort are those earning $75,000 or more with males and females represented fairly evenly. The mean days also notably different between the single statistic and those seperated by gender. At each level the higher number of poor mentel health days experienced by females pull the average figure up.
@@ -96,7 +89,7 @@ From the above graphs we see that the majority of people in the study earned $75
 
 
 ```{r}
-ggplot(sex_summaryplot, aes(x = income2, y = mean_days, fill = sex)) +
+ggplot(population_summary_plot, aes(x = income2, y = mean_days, fill = sex)) +
   geom_bar(stat = "identity", position = position_dodge()) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   labs(x = "Income level", y = "Mean Days Poor Mnthlth")
@@ -127,12 +120,9 @@ q2 <- q2 %>%
                exerany2 == "Yes" & scntvot1 == "No" ~ "Exercised but didn't vote",
                  exerany2 == "No" & scntvot1 == "Yes" ~ "Voted but didn't exercise"))
 
-with(q2, table(sex, status))
-ggplot(q2, aes(x = status, fill = sex)) + geom_bar()
-
 ```
 
-Fix up summary tab graph to show positions dodge by sex
+
 ```{r}
 summarytab <- q2 %>%
   group_by(status, sex) %>%
@@ -143,18 +133,21 @@ summarytab
 ```
 
 
+```{r}
+ggplot(data = summarytab, aes(x = reorder(status, -count), y = count, fill = sex)) +
+  geom_bar(stat = 'identity', position = 'dodge') +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  labs(x = "Status Category", y = "Count of Status") +
+  ggtitle("Voting and Exercise habits by Sex")
+```
+
+
 As proportions of the total population and relative to their statuses:
 
 
 ```{r}
 ggplot(data = q2, aes(x = status, fill = sex)) +
   geom_bar(position = 'fill')
-```
-
-
-```{r}
-tab = with(q2, table(sex, status))
-round(tab/sum(tab), 2)
 ```
 
 
