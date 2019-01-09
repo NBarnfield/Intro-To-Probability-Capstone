@@ -26,47 +26,51 @@ load("brfss2013.RData")
 * * *
 ## Part 1: Data - Method, Bias, Scope
 
-The Behavioral Risk Factor Surveillance System (BRFSS) - 2013 is a surveillance system run by the Centers for Disease Control and Prevention that collects data from all US states and territoies by way of surveys. These surveys are run continuously through the year by contracted call centres, universities and in-house interviewers to provide detailed information regarding risk-behaviours, chronic health conditions and the use of preventive services. The dataset is drawn from over 400,000 adult interviews each year and is conducted via Random Digit Dialing to both landlines and cell phones.
+The Behavioral Risk Factor Surveillance System (BRFSS) is a surveillance system run by the Centers for Disease Control and Prevention that collects data from all participating US states and territoies by way of surveys, phone and in-person interviews. These surveys are run continuously through the year by contracted call centres, universities and employed interviewers to provide detailed information regarding risk-behaviours, chronic health conditions and the use of preventive services. The dataset is drawn from over 400,000 adult interviews each year and is conducted via Random Digit Dialing to both landlines and cell phones as well as in person at University campuses.
 
 As an observational study with a randomised population the results are generalisable and corellation can be discussed, however as the subjects are not randomly assigened as in an experiment we cannot prove causality.
 
-Though the survey is adminstered throughout the year and at different times in the day there is inherent bias involved in collecting data via a phone sample. People that do not have a mobile or phone line, and people who don't pick up the phone are examples of people missed by the survey. Furthermore, the misremembering of activites, and the over or under exaggeration of particular traights may produce skewed results.
+Though the survey is adminstered throughout the year and at different times in the day in order to catch the greatest variety of people there is inherent bias involved in collecting data via a phone sample. People that do not have a mobile or phone line, and people who don't pick up the phone are examples of people missed by the survey. Furthermore, the misremembering of activites, and the over or under reporting of particular traights may produce skewed results.
 
 * * *
 
 ## Part 2: Research questions
 
-**Research question 1:**
-Is income level associated withgood mental health mental health? The results would give a general idea of whether money actually can buy happiness.
+**Research question 1: Is income level associated with good mental health? The results would give a general idea of whether money actually can buy happiness.**
 <ul>
 <li>Variable 1:income2 - Income Level</li>
 <li>Variable 2: menthlth - Number Of Days Mental Health Not Good</li>
 <li>Variable 3: sex - Respondents Sex</li>
 </ul>
-**Research question 2:**
-Are people who vote more likely to exercise than those that don't, and is there a difference between genders? As both are optional activities it would be interesting to see if those motivated enough to vote also motivated enough to exercise.
+**Research question 2: Are people who vote more likely to exercise than those that don't, and is there a difference between genders? As both are optional activities it would be interesting to see if those motivated enough to vote also motivated enough to exercise.**
 <ul>
-<li>Variable 1: scntvot1 - Did You Vote In The Last Presidential Election?</li>
+<li>Variable 1: scntvot1 - Did You Vote In The Last Presidential Election</li>
 <li>Variable 2: exerany2 - Exercise In Past 30 Days</li>
 <li>Variable 3: sex - Respondents Sex</li>
 </ul>
-**Research question 3:**
-Is internet use associated with positive general health? Is there a difference in genders? The more time someone spend infront of a screen may prevent them from living a healthier lifestyle, or may be a positive as it increases access to communication and entertaiment thus improving the respondents general health.
+**Research question 3: Is internet use associated with positive general health? Is there a difference in genders? The more time someone spend infront of a screen may prevent them from living a healthier lifestyle, or may be a positive as it increases access to communication and entertaiment thus improving the respondents general health.**
 <ul>
-<li>Variable 1: internet - Internet Use In The Past 30 Days?</li>
+<li>Variable 1: internet - Internet Use In The Past 30 Days</li>
 <li>Variable 2: genhlth - General Health</li>
 </ul>
 
 ## Part 3: Exploratory data analysis
 
-Perform exploratory data analysis (EDA) that addresses each of the three research questions you outlined above. Your EDA should contain numerical summaries and visualizations. Each R output and plot should be accompanied by a brief interpretation.
 
-**Research question 1:**
+**Research question 1: Is income level associated with good mental health? The results would give a general idea of whether money actually can buy happiness.**
 
 ```{r}
 q1 <- select(brfss2013, income2, menthlth, sex) %>%
   filter(!is.na(income2), !is.na(menthlth), menthlth < 40)
 
+vector_summary <- q1 %>%
+  group_by(income2) %>%
+  sumarrise(n = n())
+
+ggplot(data = vector_summary, aes(x = income, ))
+```
+
+```{r}
 population_summary_plot <- q1 %>%
   group_by(income2, sex) %>%
   summarise(mean_days = mean(menthlth), sd_days = sd(menthlth), n = n()) %>%
@@ -74,6 +78,7 @@ population_summary_plot <- q1 %>%
 
 kable(population_summary_plot)
 ```
+
 
 The summary statistics show that the largest cohort are those earning $75,000 or more with males and females represented fairly evenly. The mean days also notably different between the single statistic and those seperated by gender. At each level the higher number of poor mentel health days experienced by females pull the average figure up.
 
@@ -101,15 +106,13 @@ When breaking the data down by gender we see that women show consistently high m
 In short, there appears to be an association between income and overall mental health. Perhaps money can buy happiniess.
 
 
-**Research question 2:**
-
-As voting and exercise are both optional activities are people who actively engage in democracy more likely to be be proactive in their exercise routines?
+**Research question 2: Are people who vote more likely to exercise than those that don't, and is there a difference between genders? As both are optional activities it would be interesting to see if those motivated enough to vote also motivated enough to exercise.**
 
 ```{r}
 q2 <- select(brfss2013, scntvot1, exerany2, sex) %>%
   filter(!is.na(scntvot1), !is.na(exerany2))
 
-kable(table(q2$scntvot1, q2$exerany2,dnn = c("Voted", "Exercised")))
+table(q2$scntvot1, q2$exerany2,dnn = c("Voted", "Exercised"))
 ```
 
 Turing the results into a categorical variable for further analysis:
@@ -133,7 +136,6 @@ kable(summarytab)
 ```
 
 
-
 ```{r}
 ggplot(data = summarytab, aes(x = reorder(status, -count), y = count, fill = sex)) +
   geom_bar(stat = 'identity', position = 'dodge') +
@@ -146,9 +148,13 @@ ggplot(data = summarytab, aes(x = reorder(status, -count), y = count, fill = sex
 As proportions of the total population and relative to their statuses:
 
 
+
+
+
 ```{r}
-ggplot(data = q2, aes(x = status, fill = sex)) +
+ggplot(data = q2, aes(x = sex, fill = status)) +
   geom_bar(position = 'fill') +
+  scale_fill_brewer(palette = "Pastel2") +
   labs(x = "Status Category", y = "Relative Proportion") +
   ggtitle("Voting and Exercise habits by Sex")
 ```
@@ -157,25 +163,42 @@ ggplot(data = q2, aes(x = status, fill = sex)) +
 The graph demonstrates that when considering relative proportions there is only a marginal difference between exercise habits of those that voted versus those that did not.
 
 
-**Research question 3:**
+**Research question 3:Is internet use associated with positive general health? Is there a difference in genders? The more time someone spend infront of a screen may prevent them from living a healthier lifestyle, or may be a positive as it increases access to communication and entertaiment thus improving the respondents general health.**
 
 I anticipate that the more time someone spends on the internet precludes them from living an active lifestyle which would indicate lower healthy outcomes.
 
 Using the two variables internet and genhlth we can see what the general health habits of people are in association with their internet use.
 
 ```{r}
-q3 <- select(brfss2013, genhlth, internet, sex) %>%
-  filter(!is.na(genhlth), !is.na(internet)) %>%
-  group_by(genhlth)
-
-
-kable(q3)
-
+q3 <- select(brfss2013, genhlth, internet) %>%
+  filter(!is.na(genhlth), !is.na(internet)) 
 ```
+
+```{r}
+table(q3$genhlth, q3$internet, dnn = c("General Health", "Internet Use"))
 ```
+
+
+```{r}
+internet_summary_plot <- q3 %>%
+  group_by(genhlth, internet) %>%
+  summarise(count = n()) %>%
+  mutate(rel_freq = round(count / sum(count), 2))
+
+kable(internet_summary_plot)
+```
+
+rates of internet use increases for each level of general health, with the lowest usage rates amongst those that have poor general health. 
 
 Contrary to my hypothesis there appears to be an association between good general health and internet use. In fact a larger proportion of people with poor negative general health did not use the internet in the past 30 days.
 
+```{r}
+ggplot(data = q3, aes(x = genhlth, fill = internet)) +
+  geom_bar(position = 'fill') +
+  labs(x = "General Health", y = "Internet Use") +
+  ggtitle("General Health proportions by Internet Use")
+```
 The data suggests that internet use may actually improve someone's overall wellbeing. 
+
 
 
