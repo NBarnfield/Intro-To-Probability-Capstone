@@ -52,7 +52,6 @@ The data frame containing `r nrow(nycflights)` flights that shows up in your
 workspace is a *data matrix*, with each row representing an *observation* and each 
 column representing a *variable*. R calls this data format a **data frame**, which is 
 a term that will be used throughout the labs.
-
 To view the names of the variables, type the command
 
 ```{r names}
