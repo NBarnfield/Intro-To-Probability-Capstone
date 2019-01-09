@@ -164,18 +164,35 @@ I anticipate that the more time someone spends on the internet precludes them fr
 Using the two variables internet and genhlth we can see what the general health habits of people are in association with their internet use.
 
 ```{r}
-q3 <- select(brfss2013, genhlth, internet, sex) %>%
-  filter(!is.na(genhlth), !is.na(internet)) %>%
-  group_by(genhlth)
-
-
-kable(q3)
-
+q3 <- select(brfss2013, genhlth, internet) %>%
+  filter(!is.na(genhlth), !is.na(internet)) 
 ```
+
+```{r}
+table(q3$genhlth, q3$internet, dnn = c("General Health", "Internet Use"))
 ```
+
+
+```{r}
+internet_summary_plot <- q3 %>%
+  group_by(genhlth, internet) %>%
+  summarise(count = n()) %>%
+  mutate(rel_freq = round(count / sum(count), 2))
+
+kable(internet_summary_plot)
+```
+
+rates of internet use increases for each level of general health, with the lowest usage rates amongst those that have poor general health. 
 
 Contrary to my hypothesis there appears to be an association between good general health and internet use. In fact a larger proportion of people with poor negative general health did not use the internet in the past 30 days.
 
+```{r}
+ggplot(data = q3, aes(x = genhlth, fill = internet)) +
+  geom_bar(position = 'fill') +
+  labs(x = "General Health", y = "Internet Use") +
+  ggtitle("General Health proportions by Internet Use")
+```
 The data suggests that internet use may actually improve someone's overall wellbeing. 
+
 
 
