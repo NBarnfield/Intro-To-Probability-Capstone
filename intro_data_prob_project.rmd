@@ -37,18 +37,23 @@ Though the survey is adminstered throughout the year and at different times in t
 ## Part 2: Research questions
 
 **Research question 1: Is income level associated with good mental health? The results would give a general idea of whether money actually can buy happiness.**
+
 <ul>
 <li>Variable 1:income2 - Income Level</li>
 <li>Variable 2: menthlth - Number Of Days Mental Health Not Good</li>
-<li>Variable 3: sex - Respondents Sex</li>
+<li>Variable 3: sex - Respondent's Sex</li>
 </ul>
-**Research question 2: Are people who vote more likely to exercise than those that don't, and is there a difference between genders? As both are optional activities it would be interesting to see if those motivated enough to vote also motivated enough to exercise.**
+
+**Research question 2: Are people who vote more likely to exercise than those that don't, and is there a difference between genders? As both are optional activities it would be interesting to see if those motivated enough to vote are also motivated enough to exercise.**
+
 <ul>
 <li>Variable 1: scntvot1 - Did You Vote In The Last Presidential Election</li>
 <li>Variable 2: exerany2 - Exercise In Past 30 Days</li>
-<li>Variable 3: sex - Respondents Sex</li>
+<li>Variable 3: sex - Respondent's Sex</li>
 </ul>
-**Research question 3: Is internet use associated with positive general health? Is there a difference in genders? The more time someone spend infront of a screen may prevent them from living a healthier lifestyle, or may be a positive as it increases access to communication and entertaiment thus improving the respondents general health.**
+
+**Research question 3: Is internet use associated with positive general health? Is browsing good for us?**
+
 <ul>
 <li>Variable 1: internet - Internet Use In The Past 30 Days</li>
 <li>Variable 2: genhlth - General Health</li>
@@ -63,36 +68,30 @@ Though the survey is adminstered throughout the year and at different times in t
 q1 <- select(brfss2013, income2, menthlth, sex) %>%
   filter(!is.na(income2), !is.na(menthlth), menthlth < 40)
 
-vector_summary <- q1 %>%
-  group_by(income2) %>%
-  sumarrise(n = n())
-
-ggplot(data = vector_summary, aes(x = income, ))
+tab = with(q1, table(income2, sex, dnn = c("Income Level", "Sex as Percentages of Total Observations")))
+round((tab/sum(tab)*100), 2)
 ```
 
 ```{r}
 population_summary_plot <- q1 %>%
   group_by(income2, sex) %>%
-  summarise(mean_days = mean(menthlth), sd_days = sd(menthlth), n = n()) %>%
+  summarise(mean_days = round(mean(menthlth), 2), sd_days = round(sd(menthlth), 2), n = n()) %>%
   arrange(desc(income2))
 
-kable(population_summary_plot)
+kable(population_summary_plot, col.names = 
+        c("Income Level", "Sex", "Mean Days of Bad Health", "Standard Deviation", "Observations"))
 ```
 
+The summary statistics show that the largest cohort are those earning $75,000 or more with males and females represented fairly evenly, however women represent a disproportiantly large population in the lower income levels.
 
-The summary statistics show that the largest cohort are those earning $75,000 or more with males and females represented fairly evenly. The mean days also notably different between the single statistic and those seperated by gender. At each level the higher number of poor mentel health days experienced by females pull the average figure up.
-
+The average days reported increase dramatically at lower income levels and is also notably different between genders. We can observe that women experience a higher average number of poor mental health days at each income level.
 
 ```{r}
 ggplot(data = q1, aes(x = income2, fill = sex)) +
   geom_bar(position = position_dodge()) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  labs(x = "Income level", y = "Count")
+  labs(x = "Income level", y = "Observations")
 ```
-
-
-From the above graphs we see that the majority of people in the study earned $75,000 or mor, and that it appears that as income increases people experience fewer days of poor mental health on average.
-
 
 ```{r}
 ggplot(population_summary_plot, aes(x = income2, y = mean_days, fill = sex)) +
@@ -101,12 +100,12 @@ ggplot(population_summary_plot, aes(x = income2, y = mean_days, fill = sex)) +
   labs(x = "Income level", y = "Mean Days Poor Mnthlth")
 ```
 
-When breaking the data down by gender we see that women show consistently high mean days of poor mental health at every income level. While interesting this is likely due to a confounding variable which is outside the scope of the analysis.
+From the above graphs we see that the largest group in the study earned $75,000 or more, and it appears that as income increases people experience fewer days of poor mental health on average.
 
 In short, there appears to be an association between income and overall mental health. Perhaps money can buy happiniess.
 
 
-**Research question 2: Are people who vote more likely to exercise than those that don't, and is there a difference between genders? As both are optional activities it would be interesting to see if those motivated enough to vote also motivated enough to exercise.**
+**Research question 2: Are people who vote more likely to exercise than those that don't, and is there a difference between genders? As both are optional activities it would be interesting to see if those motivated enough to vote are also motivated enough to exercise.**
 
 ```{r}
 q2 <- select(brfss2013, scntvot1, exerany2, sex) %>%
@@ -115,7 +114,7 @@ q2 <- select(brfss2013, scntvot1, exerany2, sex) %>%
 table(q2$scntvot1, q2$exerany2,dnn = c("Voted", "Exercised"))
 ```
 
-Turing the results into a categorical variable for further analysis:
+Suprisingly the majority of respondents reported that they both exercised and voted. Turning the results into a categorical variable for further analysis:
 
 ```{r}
 q2 <- q2 %>%
@@ -130,26 +129,11 @@ q2 <- q2 %>%
 summarytab <- q2 %>%
   group_by(status, sex) %>%
   summarise(count = n()) %>%
-  mutate(rel_freq = round(count / sum(count), 2))
+  mutate(rel_freq = round((count / sum(count)*100), 2))
 
-kable(summarytab)
+kable(summarytab, col.names = 
+        c("Status", "Sex", "Observations", "Relative Frequency"))
 ```
-
-
-```{r}
-ggplot(data = summarytab, aes(x = reorder(status, -count), y = count, fill = sex)) +
-  geom_bar(stat = 'identity', position = 'dodge') +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  labs(x = "Status Category", y = "Count of Status") +
-  ggtitle("Voting and Exercise habits by Sex")
-```
-
-
-As proportions of the total population and relative to their statuses:
-
-
-
-
 
 ```{r}
 ggplot(data = q2, aes(x = sex, fill = status)) +
@@ -159,38 +143,26 @@ ggplot(data = q2, aes(x = sex, fill = status)) +
   ggtitle("Voting and Exercise habits by Sex")
 ```
 
+Given that voting and exercise are optional and require respondents may have lied and reported aspirational ideas instead of their actual activity. It does appear however that the majority of people vote and exercise, and of those that don't men are more likely to exercise and not vote while women are more likely to vote and not exercise.
 
-The graph demonstrates that when considering relative proportions there is only a marginal difference between exercise habits of those that voted versus those that did not.
+**Research question 3: Is internet use associated with positive general health? Is browsing possibly good for us?**
 
-
-**Research question 3:Is internet use associated with positive general health? Is there a difference in genders? The more time someone spend infront of a screen may prevent them from living a healthier lifestyle, or may be a positive as it increases access to communication and entertaiment thus improving the respondents general health.**
-
-I anticipate that the more time someone spends on the internet precludes them from living an active lifestyle which would indicate lower healthy outcomes.
-
-Using the two variables internet and genhlth we can see what the general health habits of people are in association with their internet use.
+The more time someone spends infront of a screen may prevent them from living a healthier lifestyle, or may be a positive as it may increases access to communication and entertaiment. Using the two variables internet and genhlth we can see what the general health habits of people are in association with their internet use.
 
 ```{r}
 q3 <- select(brfss2013, genhlth, internet) %>%
   filter(!is.na(genhlth), !is.na(internet)) 
-```
 
-```{r}
-table(q3$genhlth, q3$internet, dnn = c("General Health", "Internet Use"))
-```
-
-
-```{r}
 internet_summary_plot <- q3 %>%
   group_by(genhlth, internet) %>%
   summarise(count = n()) %>%
-  mutate(rel_freq = round(count / sum(count), 2))
+  mutate(rel_freq = round((count / sum(count)*100), 2))
 
-kable(internet_summary_plot)
+kable(internet_summary_plot, col.names = 
+        c("Reported Health", "Internet Use", "Observations", "Relative Frequency"))
 ```
 
-rates of internet use increases for each level of general health, with the lowest usage rates amongst those that have poor general health. 
-
-Contrary to my hypothesis there appears to be an association between good general health and internet use. In fact a larger proportion of people with poor negative general health did not use the internet in the past 30 days.
+Rates of internet use increases for each level of general health, with the lowest usage rates amongst those that have poor general health. 
 
 ```{r}
 ggplot(data = q3, aes(x = genhlth, fill = internet)) +
@@ -198,7 +170,7 @@ ggplot(data = q3, aes(x = genhlth, fill = internet)) +
   labs(x = "General Health", y = "Internet Use") +
   ggtitle("General Health proportions by Internet Use")
 ```
-The data suggests that internet use may actually improve someone's overall wellbeing. 
 
+These figures show that there is an association between good general health and internet use. In fact a larger proportion of people with poor negative general health did not use the internet in the past 30 days. This is not likely a causal relationship and would in fact likely be brought about due to a confounding variable such as overall wealth or access to services.
 
 
